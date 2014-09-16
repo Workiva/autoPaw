@@ -1,0 +1,17 @@
+{
+  "name": "suffer",
+  "version": "0.0.0",
+  "description": "Another awesome JavaScript project from WebFilings.",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/WebFilings/suffer.git"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "wGulp": "git+ssh://git@github.com:WebFilings/wGulp.git#master"
+  },
+  "jspm": {
+    "name": "suffer"
+  }
+}
