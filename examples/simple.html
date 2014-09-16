@@ -7,9 +7,9 @@
 
         <script src="../jspm_packages/system@0.8.js"></script>
 
-        <script type="text/javascript" src="../lib/jasmine-2.0.2/jasmine.js"></script>
-        <script type="text/javascript" src="../lib/jasmine-2.0.2/console.js"></script>
-        <script type="text/javascript" src="../lib/jasmine-2.0.2/boot.js"></script>
+        <script type="text/javascript" src="./lib/jasmine-2.0.2/jasmine.js"></script>
+        <script type="text/javascript" src="./lib/jasmine-2.0.2/console.js"></script>
+        <script type="text/javascript" src="./lib/jasmine-2.0.2/boot.js"></script>
 
         <!-- include src -->
         <!-- not necessary in this example because we're assuming the source
@@ -32,7 +32,10 @@
             function importIt(x) {
                 return System.import(x);
             }
-            Promise.all(specsToRun.map(importIt));
+            Promise.all(specsToRun.map(importIt)).then(function(){
+                var env = jasmine.getEnv();
+                env.execute();
+            });
 
         </script>
     </head>
