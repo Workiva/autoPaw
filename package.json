@@ -1,0 +1,30 @@
+{
+  "name": "suffer",
+  "version": "0.0.0",
+  "description": "This is a extremely easy to use functional test framework targeted to a specific sweet spot of single page applications. It runs purely in browser and with JavaScript which makes it exceptionally easy to start with. It does not support out of process functionality that Selenium/WebDriver provides.",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "jasmine-node": "^2.0.0-beta3"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WebFilings/suffer.git"
+  },
+  "keywords": [
+    "testing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebFilings/suffer/issues"
+  },
+  "homepage": "https://github.com/WebFilings/suffer"
+}
