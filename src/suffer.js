@@ -13,10 +13,7 @@
         for (var i = 0; i < pairs.length; i++) {
             var keyvals = pairs[i].split('=');
             var val = keyvals[1];
-            if (val === undefined) {
-                val = 1;
-            }
-            parms[keyvals[0]] = val;
+            parms[keyvals[0]] = val || null; // prevent key -> undefined
         }
         return parms;
     }
@@ -51,22 +48,29 @@
         setTimeout(checkReady,CHECK_READY_INTERVAL);
     }
 
-    function loadWhenReady() {
+    // checks for the URL param to run automated tests
+    function loadIfEnabled() {
+        qs = parseQueryString();
+        if (qs.runTests === undefined) {
+            // do nothing
+            console.log('tests are not enabled');
+            return;
+        }
+        qs.runTests = Number(qs.runTests);
+        if (isNaN(qs.runTests)) {
+            qs.runTests = TIMEOUT_AFTER;
+        }
+        if (qs.runTests < 0) {
+            qs.runTests = 9999999;
+        }
         // initialize it if it isn't defined on window
         if (!('readyToTest' in window)) {
             window.readyToTest = false;
         }
         startTime = Date.now();
-        endTime = startTime + TIMEOUT_AFTER;
+        endTime = startTime + qs.runTests;
+        console.log('runTests',qs.runTests);
         checkReady();
-    }
-
-    // checks for the URL param to run automated tests
-    function loadIfEnabled() {
-        qs = parseQueryString();
-        if (qs.runTests) {
-            setTimeout(loadWhenReady,0);
-        }
     }
 
     function getScriptElementFor(name) {
@@ -103,6 +107,6 @@
         return path + newSrc;
     }
 
-    window.addEventListener('load', loadIfEnabled);
+    loadIfEnabled();
 
 })();
