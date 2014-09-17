@@ -35,7 +35,10 @@
 
     function runSuffer() {
         /* jshint ignore:start */
-        var runner = new SufferRunner();
+        var specsToRun = [
+            './functionalTest/index'
+        ];
+        var runner = new SufferRunner(specsToRun);
         /* jshint ignore:end */
     }
 
