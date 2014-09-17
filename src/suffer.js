@@ -20,7 +20,7 @@
 
     function load() {
         // load SufferRunner via script tag injection
-        var runnerPath = getScriptPathRelativeTo('sufferRunner.js', 'suffer.js');
+        var runnerPath = qs.runnerPath || getScriptPathRelativeTo('sufferRunner.js', 'suffer.js');
 
         var runnerLoader = document.createElement('script');
         runnerLoader.type = 'text/javascript';
@@ -44,7 +44,6 @@
             load();
             return;
         }
-        console.log("not ready");
         setTimeout(checkReady,CHECK_READY_INTERVAL);
     }
 
