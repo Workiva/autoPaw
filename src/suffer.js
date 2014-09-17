@@ -22,11 +22,18 @@
     }
 
     function load() {
-        // load Jasmine2
-        // load specs
-        // run specs
-        // report to HTML / xunit
+        // load SufferRunner via script tag injection
+        var runnerPath = getScriptPathRelativeTo('sufferRunner.js', 'suffer.js');
 
+        var runnerLoader = document.createElement('script');
+        runnerLoader.type = 'text/javascript';
+        runnerLoader.src = runnerPath;
+        runnerLoader.onload = runSuffer;
+        var head = document.getElementsByTagName('head')[0];
+        head.appendChild(runnerLoader);
+    }
+
+    function runSuffer() {
         /* jshint ignore:start */
         var runner = new SufferRunner();
         /* jshint ignore:end */
@@ -59,8 +66,40 @@
         }
     }
 
+    function getScriptElementFor(name) {
+        var selfScript = null;
+        try {
+            selfScript = document.querySelector('script[src*="' + name + '"]');
+        } catch (x) {
+            // ignore
+        }
+        // If a browser doesn't support *= attribute selectors, check all scripts
+        if (!selfScript) {
+            var scripts = document.querySelectorAll('script');
+            for (var i = 0; i < scripts.length; i++) {
+                var scriptSrc = scripts[i].src;
+                if (scriptSrc.indexOf(name)) {
+                    selfScript = scripts[i];
+                    break;
+                }
+            }
+        }
+        return selfScript;
+    }
+
+    function getScriptPathOf(name) {
+        var scriptElement = getScriptElementFor(name);
+        if (!scriptElement || !name) {
+            return;
+        }
+        return scriptElement.src.split(name).join('');
+    }
+
+    function getScriptPathRelativeTo(newSrc, nextToSrc) {
+        var path = getScriptPathOf(nextToSrc);
+        return path + newSrc;
+    }
+
     window.addEventListener('load', loadIfEnabled);
-
-
 
 })();

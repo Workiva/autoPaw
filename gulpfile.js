@@ -1,7 +1,9 @@
 var gulp = require('gulp');
 
 // Override default options (such as path) here
-var customizedOptions = {};
+var customizedOptions = {
+    build_tasks: [['concat', 'copy:dist']]
+};
 
 var wGulp = require('wGulp')(gulp, customizedOptions);
 
@@ -12,8 +14,12 @@ gulp.task('concat', wGulp.concat({
         'lib/jasmine-2.0.2/console.js',
         'lib/jasmine-2.0.2/boot.js',
         'lib/jasmine-jsreporter/jasmine-jsreporter.js',
-        'src/sufferRunner.js',
-        'src/suffer.js'
+        'src/sufferRunner.js'
     ],
-    outfile: 'suffer.js'
+    outfile: 'sufferRunner.js'
+}));
+
+gulp.task('copy:dist', wGulp.copy({
+    src: 'src/suffer.js',
+    dest: 'dist/'
 }));
