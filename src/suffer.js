@@ -28,10 +28,7 @@
         // report to HTML / xunit
 
         /* jshint ignore:start */
-        System.import('./sufferRunner').then(function(module) {
-            var runner = new SufferRunner();
-
-        });
+        var runner = new SufferRunner();
         /* jshint ignore:end */
     }
 
@@ -40,6 +37,7 @@
             load();
             return;
         }
+        console.log("not ready");
         setTimeout(checkReady,CHECK_READY_INTERVAL);
     }
 
@@ -62,4 +60,7 @@
     }
 
     window.addEventListener('load', loadIfEnabled);
+
+
+
 })();
