@@ -2,7 +2,7 @@ var gulp = require('gulp');
 
 // Override default options (such as path) here
 var customizedOptions = {
-    build_tasks: [['concat', 'copy:dist']]
+    build_tasks: [['copy:js', 'concat', 'copy:dist']]
 };
 
 var wGulp = require('wGulp')(gulp, customizedOptions);
