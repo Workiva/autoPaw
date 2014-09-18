@@ -21,7 +21,6 @@
     function load() {
         // load SufferRunner via script tag injection
         var runnerPath = qs.runnerPath || getScriptPathRelativeTo('sufferRunner.js', 'suffer.js');
-
         var runnerLoader = document.createElement('script');
         runnerLoader.type = 'text/javascript';
         runnerLoader.src = runnerPath;
@@ -84,7 +83,7 @@
             var scripts = document.querySelectorAll('script');
             for (var i = 0; i < scripts.length; i++) {
                 var scriptSrc = scripts[i].src;
-                if (scriptSrc.indexOf(name)) {
+                if (scriptSrc.indexOf(name) >= 0) {
                     selfScript = scripts[i];
                     break;
                 }
@@ -96,13 +95,16 @@
     function getScriptPathOf(name) {
         var scriptElement = getScriptElementFor(name);
         if (!scriptElement || !name) {
-            return;
+            return undefined;
         }
         return scriptElement.src.split(name).join('');
     }
 
     function getScriptPathRelativeTo(newSrc, nextToSrc) {
         var path = getScriptPathOf(nextToSrc);
+        if (path === undefined) {
+            throw new Error('Can\'t find script tag for ' + nextToSrc);
+        }
         return path + newSrc;
     }
 
