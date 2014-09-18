@@ -13,6 +13,7 @@ gulp.task('concat', wGulp.concat({
         'lib/jasmine-2.0.2/jasmine.js',
         'lib/jasmine-2.0.2/console.js',
         'lib/jasmine-jsreporter/jasmine-jsreporter.js',
+        'lib/junit_reporter/junit_reporter.js',
         'lib/jasmine-2.0.2/boot.js',
         'src/sufferRunner.js'
     ],
