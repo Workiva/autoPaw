@@ -35,16 +35,35 @@
             './functionalTest/index'
         ];
         var runner = new SufferRunner(specsToRun);      // jshint ignore:line
-        runner.runTests().then(function(testResults){
-            console.log('JSON Test Results:');          // jshint ignore:line
-            console.log(testResults);                   // jshint ignore:line
-
-            // get junit test results and output to reportURL if available
-            var xml = runner.getJUnitTestResults();
-            console.log('JUnit Test Results:');         // jshint ignore:line
-            console.log(xml);                           // jshint ignore:line
+        runner.runTests().then(function(){
+            if (qs.reportURL) {
+                var xml = runner.getJUnitTestResults();
+                postTestResults(xml, qs.reportURL);
+            }
         });
 
+    }
+
+    /**
+     * Post test results to a listening URL (typically, a running wf-catcher)
+     * @param  {Object} results JSON-serializable test results or XML string
+     * @param  {String} reportURL  URL suitable for posting to
+     */
+    function postTestResults(results, reportURL) {
+
+        if (!reportURL) {
+            throw new Error('endpoint url unspecified');
+        }
+
+        var request = new XMLHttpRequest();
+        request.open('POST', reportURL, true);
+        if (typeof results === 'string') {
+            request.setRequestHeader('Content-Type', 'text/xml; charset=UTF-8');
+            request.send(results);
+        } else {
+            request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+            request.send(JSON.stringify(results));
+        }
     }
 
     function checkReady() {
