@@ -30,12 +30,16 @@
     }
 
     function runSuffer() {
-        /* jshint ignore:start */
+
         var specsToRun = [
             './functionalTest/index'
         ];
-        var runner = new SufferRunner(specsToRun);
-        /* jshint ignore:end */
+        var runner = new SufferRunner(specsToRun);      // jshint ignore:line
+        runner.runTests().then(function(testResults){
+            console.log('Test Results:');               // jshint ignore:line
+            console.log(testResults);                   // jshint ignore:line
+        });
+
     }
 
     function checkReady() {
@@ -51,7 +55,6 @@
         qs = parseQueryString();
         if (qs.runTests === undefined) {
             // do nothing
-            console.log('tests are not enabled');
             return;
         }
         qs.runTests = Number(qs.runTests);
@@ -67,7 +70,6 @@
         }
         startTime = Date.now();
         endTime = startTime + qs.runTests;
-        console.log('runTests',qs.runTests);
         checkReady();
     }
 
