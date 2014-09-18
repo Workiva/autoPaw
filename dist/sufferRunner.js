@@ -3215,11 +3215,15 @@ getJasmineRequireObj().JSReporter2 = function() {
                 return;
             } catch (f) { errors.push('  NodeJS attempt: ' + f.message); }
 
+            /*
             // If made it here, no write succeeded.  Let user know.
             log("Warning: writing junit report failed for '" + path + "', '" +
                 filename + "'. Reasons:\n" +
                 errors.join("\n")
             );
+            */
+            // put the final report where browser code can access it
+            jasmine.junitReport = text;
         };
 
         /******** Helper functions with closure access for simplicity ********/
@@ -3427,6 +3431,13 @@ var SufferRunner = (function () {   // jshint ignore:line
 
         getTestResultsAsString: function() {
             return jasmine.getJSReportAsString();
+        },
+
+        getJUnitTestResults: function() {
+            if (jasmine.junitReport) {
+                return jasmine.junitReport;
+            }
+            return '';
         }
 
     };

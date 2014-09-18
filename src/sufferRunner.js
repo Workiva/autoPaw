@@ -36,6 +36,13 @@ var SufferRunner = (function () {   // jshint ignore:line
 
         getTestResultsAsString: function() {
             return jasmine.getJSReportAsString();
+        },
+
+        getJUnitTestResults: function() {
+            if (jasmine.junitReport) {
+                return jasmine.junitReport;
+            }
+            return '';
         }
 
     };

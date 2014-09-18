@@ -36,8 +36,13 @@
         ];
         var runner = new SufferRunner(specsToRun);      // jshint ignore:line
         runner.runTests().then(function(testResults){
-            console.log('Test Results:');               // jshint ignore:line
+            console.log('JSON Test Results:');          // jshint ignore:line
             console.log(testResults);                   // jshint ignore:line
+
+            // get junit test results and output to reportURL if available
+            var xml = runner.getJUnitTestResults();
+            console.log('JUnit Test Results:');         // jshint ignore:line
+            console.log(xml);                           // jshint ignore:line
         });
 
     }
