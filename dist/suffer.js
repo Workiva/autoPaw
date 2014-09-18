@@ -30,10 +30,12 @@
     }
 
     function runSuffer() {
-
-        var specsToRun = [
-            './functionalTest/index'
-        ];
+        var specList = qs.testIndexFile || './functionalTest/index';
+        var idx = specList.lastIndexOf('.js');
+        if (idx > 0 && idx == specList.length - 3) {
+            specList = specList.substr(0,specList.length - 3);
+        }
+        var specsToRun = [ specList ];
         var runner = new SufferRunner(specsToRun);      // jshint ignore:line
         runner.runTests().then(function(){
             if (qs.reportURL) {
