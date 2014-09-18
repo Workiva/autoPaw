@@ -5,9 +5,6 @@ var SufferRunner = (function () {
     function SufferRunner(specsToRun) {
         /* jshint ignore:start */
 
-        // attach the JSReporter to get JSON test results
-        jasmine.getEnv().addReporter(new jasmine.JSReporter2());
-
         // to load an array of specs
         function importIt(x) {
             return System.import(x);
@@ -17,7 +14,7 @@ var SufferRunner = (function () {
             env.execute();
 
             // echo out the JSON test results
-            var testResults = env.getJSReport();
+            var testResults = jasmine.getJSReport();
             console.log(testResults);
         });
 

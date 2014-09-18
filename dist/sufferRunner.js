@@ -2759,80 +2759,6 @@ getJasmineRequireObj().ConsoleReporter = function() {
   return ConsoleReporter;
 };
 
-/**
- Starting with version 2.0, this file "boots" Jasmine, performing all of the necessary initialization before executing the loaded environment and all of a project's specs. This file should be loaded after `jasmine.js`, but before any project source files or spec files are loaded. Thus this file can also be used to customize Jasmine for a project.
-
- If a project is using Jasmine via the standalone distribution, this file can be customized directly. If a project is using Jasmine via the [Ruby gem][jasmine-gem], this file can be copied into the support directory via `jasmine copy_boot_js`. Other environments (e.g., Python) will have different mechanisms.
-
- The location of `boot.js` can be specified and/or overridden in `jasmine.yml`.
-
- [jasmine-gem]: http://github.com/pivotal/jasmine-gem
- */
-
-(function() {
-
-  /**
-   * ## Require &amp; Instantiate
-   *
-   * Require Jasmine's core files. Specifically, this requires and attaches all of Jasmine's code to the `jasmine` reference.
-   */
-  window.jasmine = jasmineRequire.core(jasmineRequire);
-
-  /**
-   * Create the Jasmine environment. This is used to run all specs in a project.
-   */
-  var env = jasmine.getEnv();
-
-  /**
-   * ## The Global Interface
-   *
-   * Build up the functions that will be exposed as the Jasmine public interface. A project can customize, rename or alias any of these functions as desired, provided the implementation remains unchanged.
-   */
-  var jasmineInterface = jasmineRequire.interface(jasmine, env);
-
-  /**
-   * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
-   */
-  if (typeof window == "undefined" && typeof exports == "object") {
-    extend(exports, jasmineInterface);
-  } else {
-    extend(window, jasmineInterface);
-  }
-
-  /**
-   * ## Reporters
-   * The `ConsoleReporter` reports tests results to the HTML browser console
-   */
-  var consoleReporter = new jasmineRequire.ConsoleReporter()({
-    print: function(msg) {
-      console.log(msg);
-    }
-  });
-
-  /**
-   * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
-   */
-  env.addReporter(jasmineInterface.jsApiReporter);
-  env.addReporter(consoleReporter);
-
-  /**
-   * Setting up timing functions to be able to be overridden. Certain browsers (Safari, IE 8, phantomjs) require this hack.
-   */
-  window.setTimeout = window.setTimeout;
-  window.setInterval = window.setInterval;
-  window.clearTimeout = window.clearTimeout;
-  window.clearInterval = window.clearInterval;
-
-  /**
-   * Helper function for readability above.
-   */
-  function extend(destination, source) {
-    for (var property in source) destination[property] = source[property];
-    return destination;
-  }
-
-}());
-
 /*
   This file is part of the Jasmine JSReporter project from Ivan De Marino.
 
@@ -2862,158 +2788,8 @@ getJasmineRequireObj().ConsoleReporter = function() {
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-(function (jasmine) {
 
-  if (!jasmine) {
-    throw new Error("[Jasmine JSReporter] 'Jasmine' library not found");
-  }
-
-  // ------------------------------------------------------------------------
-  // Jasmine JSReporter for Jasmine 1.x
-  // ------------------------------------------------------------------------
-
-  /**
-   * Calculate elapsed time, in Seconds.
-   * @param startMs Start time in Milliseconds
-   * @param finishMs Finish time in Milliseconds
-   * @return Elapsed time in Seconds */
-  function elapsedSec (startMs, finishMs) {
-      return (finishMs - startMs) / 1000;
-  }
-
-  /**
-   * Round an amount to the given number of Digits.
-   * If no number of digits is given, than '2' is assumed.
-   * @param amount Amount to round
-   * @param numOfDecDigits Number of Digits to round to. Default value is '2'.
-   * @return Rounded amount */
-  function round (amount, numOfDecDigits) {
-      numOfDecDigits = numOfDecDigits || 2;
-      return Math.round(amount * Math.pow(10, numOfDecDigits)) / Math.pow(10, numOfDecDigits);
-  }
-
-  /**
-   * Create a new array which contains only the failed items.
-   * @param items Items which will be filtered
-   * @returns {Array} of failed items */
-  function failures (items) {
-      var fs = [], i, v;
-      for (i = 0; i < items.length; i += 1) {
-          v = items[i];
-          if (!v.passed_) {
-              fs.push(v);
-          }
-      }
-      return fs;
-  }
-
-  /**
-   * Collect information about a Suite, recursively, and return a JSON result.
-   * @param suite The Jasmine Suite to get data from
-   */
-  function getSuiteData (suite) {
-      var suiteData = {
-              description : suite.description,
-              durationSec : 0,
-              specs: [],
-              suites: [],
-              passed: true
-          },
-          specs = suite.specs(),
-          suites = suite.suites(),
-          i, ilen;
-
-      // Loop over all the Suite's Specs
-      for (i = 0, ilen = specs.length; i < ilen; ++i) {
-          suiteData.specs[i] = {
-              description : specs[i].description,
-              durationSec : specs[i].durationSec,
-              passed : specs[i].results().passedCount === specs[i].results().totalCount,
-              skipped : specs[i].results().skipped,
-              passedCount : specs[i].results().passedCount,
-              failedCount : specs[i].results().failedCount,
-              totalCount : specs[i].results().totalCount,
-              failures: failures(specs[i].results().getItems())
-          };
-          suiteData.passed = !suiteData.specs[i].passed ? false : suiteData.passed;
-          suiteData.durationSec += suiteData.specs[i].durationSec;
-      }
-
-      // Loop over all the Suite's sub-Suites
-      for (i = 0, ilen = suites.length; i < ilen; ++i) {
-          suiteData.suites[i] = getSuiteData(suites[i]); //< recursive population
-          suiteData.passed = !suiteData.suites[i].passed ? false : suiteData.passed;
-          suiteData.durationSec += suiteData.suites[i].durationSec;
-      }
-
-      // Rounding duration numbers to 3 decimal digits
-      suiteData.durationSec = round(suiteData.durationSec, 4);
-
-      return suiteData;
-  }
-
-  var JSReporter =  function () {
-  };
-
-  JSReporter.prototype = {
-      reportRunnerStarting: function (runner) {
-          // Nothing to do
-      },
-
-      reportSpecStarting: function (spec) {
-          // Start timing this spec
-          spec.startedAt = new Date();
-      },
-
-      reportSpecResults: function (spec) {
-          // Finish timing this spec and calculate duration/delta (in sec)
-          spec.finishedAt = new Date();
-          // If the spec was skipped, reportSpecStarting is never called and spec.startedAt is undefined
-          spec.durationSec = spec.startedAt ? elapsedSec(spec.startedAt.getTime(), spec.finishedAt.getTime()) : 0;
-      },
-
-      reportSuiteResults: function (suite) {
-          // Nothing to do
-      },
-
-      reportRunnerResults: function (runner) {
-          var suites = runner.suites(),
-              i, j, ilen;
-
-          // Attach results to the "jasmine" object to make those results easy to scrap/find
-          jasmine.runnerResults = {
-              suites: [],
-              durationSec : 0,
-              passed : true
-          };
-
-          // Loop over all the Suites
-          for (i = 0, ilen = suites.length, j = 0; i < ilen; ++i) {
-              if (suites[i].parentSuite === null) {
-                  jasmine.runnerResults.suites[j] = getSuiteData(suites[i]);
-                  // If 1 suite fails, the whole runner fails
-                  jasmine.runnerResults.passed = !jasmine.runnerResults.suites[j].passed ? false : jasmine.runnerResults.passed;
-                  // Add up all the durations
-                  jasmine.runnerResults.durationSec += jasmine.runnerResults.suites[j].durationSec;
-                  j++;
-              }
-          }
-
-          // Decorate the 'jasmine' object with getters
-          jasmine.getJSReport = function () {
-              if (jasmine.runnerResults) {
-                  return jasmine.runnerResults;
-              }
-              return null;
-          };
-          jasmine.getJSReportAsString = function () {
-              return JSON.stringify(jasmine.getJSReport());
-          };
-      }
-  };
-
-  // export public
-  jasmine.JSReporter = JSReporter;
+getJasmineRequireObj().JSReporter2 = function() {
 
 
   // ------------------------------------------------------------------------
@@ -3224,16 +3000,92 @@ getJasmineRequireObj().ConsoleReporter = function() {
     };
   };
 
-})(jasmine);
+};
+
+/**
+ Starting with version 2.0, this file "boots" Jasmine, performing all of the necessary initialization before executing the loaded environment and all of a project's specs. This file should be loaded after `jasmine.js`, but before any project source files or spec files are loaded. Thus this file can also be used to customize Jasmine for a project.
+
+ If a project is using Jasmine via the standalone distribution, this file can be customized directly. If a project is using Jasmine via the [Ruby gem][jasmine-gem], this file can be copied into the support directory via `jasmine copy_boot_js`. Other environments (e.g., Python) will have different mechanisms.
+
+ The location of `boot.js` can be specified and/or overridden in `jasmine.yml`.
+
+ [jasmine-gem]: http://github.com/pivotal/jasmine-gem
+ */
+
+(function() {
+
+  /**
+   * ## Require &amp; Instantiate
+   *
+   * Require Jasmine's core files. Specifically, this requires and attaches all of Jasmine's code to the `jasmine` reference.
+   */
+  window.jasmine = jasmineRequire.core(jasmineRequire);
+
+  /**
+   * Create the Jasmine environment. This is used to run all specs in a project.
+   */
+  var env = jasmine.getEnv();
+
+  /**
+   * ## The Global Interface
+   *
+   * Build up the functions that will be exposed as the Jasmine public interface. A project can customize, rename or alias any of these functions as desired, provided the implementation remains unchanged.
+   */
+  var jasmineInterface = jasmineRequire.interface(jasmine, env);
+
+  /**
+   * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
+   */
+  if (typeof window == "undefined" && typeof exports == "object") {
+    extend(exports, jasmineInterface);
+  } else {
+    extend(window, jasmineInterface);
+  }
+
+  /**
+   * ## Reporters
+   * The `ConsoleReporter` reports tests results to the HTML browser console
+   */
+  var consoleReporter = new jasmineRequire.ConsoleReporter()({
+    print: function(msg) {
+      console.log(msg);
+    }
+  });
+
+  /**
+   * The `jsApiReporter` also receives spec results, and is used by any environment that needs to extract the results  from JavaScript.
+   */
+  env.addReporter(jasmineInterface.jsApiReporter);
+  env.addReporter(consoleReporter);
+
+  // instantiate JSReporter on the jasmine global and add a new reporter
+  jasmineRequire.JSReporter2();
+  env.addReporter(new jasmine.JSReporter2());
+
+  /**
+   * Setting up timing functions to be able to be overridden. Certain browsers (Safari, IE 8, phantomjs) require this hack.
+   */
+  window.setTimeout = window.setTimeout;
+  window.setInterval = window.setInterval;
+  window.clearTimeout = window.clearTimeout;
+  window.clearInterval = window.clearInterval;
+
+  /**
+   * Helper function for readability above.
+   */
+  function extend(destination, source) {
+    for (var property in source) destination[property] = source[property];
+    return destination;
+  }
+
+}());
+
 var SufferRunner = (function () {
 
     'use strict';
 
     function SufferRunner(specsToRun) {
         /* jshint ignore:start */
-
-        // attach the JSReporter to get JSON test results
-        jasmine.getEnv().addReporter(new jasmine.JSReporter2());
 
         // to load an array of specs
         function importIt(x) {
@@ -3244,7 +3096,7 @@ var SufferRunner = (function () {
             env.execute();
 
             // echo out the JSON test results
-            var testResults = env.getJSReport();
+            var testResults = jasmine.getJSReport();
             console.log(testResults);
         });
 
