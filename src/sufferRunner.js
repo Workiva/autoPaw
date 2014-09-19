@@ -8,7 +8,7 @@ var SufferRunner = (function () {   // jshint ignore:line
 
     SufferRunner.prototype = {
 
-        runTests: function(/*consoleEcho*/) {
+        startTests: function(/*consoleEcho*/) {
 
             // dynamically load a spec file
             function importIt(x) {
@@ -16,12 +16,10 @@ var SufferRunner = (function () {   // jshint ignore:line
             }
 
             var self = this;
-            return new Promise(function(resolve) {
-                Promise.all(self.specList.map(importIt)).then(function(){
-                    // run tests when all have been loaded
-                    jasmine.getEnv().execute();
-                    resolve(self.getTestResults());
-                });
+
+            Promise.all(self.specList.map(importIt)).then(function(){
+                // run tests when all have been loaded
+                jasmine.getEnv().execute();
             });
 
         },

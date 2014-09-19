@@ -5,27 +5,76 @@
     var startTime;
     var endTime;
     var qs; // the query string params
+    var iframe;
 
-    function parseQueryString() {
+    function parseQueryString(url) {
         var parms = {};
-        var query = String(window.location).split('?')[1] || '';
+        var query = String(url).split('?')[1] || '';
         var pairs = query.split('&');
         for (var i = 0; i < pairs.length; i++) {
             var keyvals = pairs[i].split('=');
             var val = keyvals[1];
-            parms[keyvals[0]] = val || null; // prevent key -> undefined
+            var key = keyvals[0];
+            if (key) {
+                parms[key] = val || null; // prevent key -> undefined
+            }
         }
         return parms;
     }
 
     function load() {
         // load SufferRunner via script tag injection
-        var runnerPath = qs.runnerPath || getScriptPathRelativeTo('sufferRunner.js', 'suffer.js');
+        var runnerPath = getPathTo('suffer.js', qs.runnerPath);
         var runnerLoader = document.createElement('script');
         runnerLoader.type = 'text/javascript';
-        runnerLoader.src = runnerPath;
+        runnerLoader.src = runnerPath + 'sufferRunner.js';
         runnerLoader.onload = runSuffer;
         var head = document.getElementsByTagName('head')[0];
+
+
+        iframe = document.getElementById('suffer_results');
+        if (!iframe) {
+            iframe = document.createElement('iframe');
+            iframe.id = 'suffer_results';
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0px';
+            iframe.style.left = '0px';
+            iframe.style.bottom = '0px';
+            iframe.style.right = '0px';
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+        }
+        var iwindow = (iframe.contentWindow) ? iframe.contentWindow : (iframe.contentDocument.document) ? iframe.contentDocument.document : iframe.contentDocument;
+        var ibody = iwindow.document.body;
+
+        var css = iwindow.document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = runnerPath + 'jasmine.css';
+        iwindow.document.body.appendChild(css);
+        var mainWindow = window;
+        ibody.addEventListener('click', function(ev) {
+            var target = ev.target;
+            ev.preventDefault();
+            var linkQs = parseQueryString(target.href);
+            var key;
+            for (key in qs) {
+                if (linkQs[key] === undefined && key !== 'spec') {
+                    linkQs[key] = qs[key];
+                }
+            }
+            var newQuery = '';
+            for (key in linkQs) {
+                newQuery = newQuery + key + '=' + linkQs[key] + '&';
+            }
+            var newUrl = target.href.split('?')[0] + '?' + newQuery;
+            mainWindow.location = newUrl;
+        });
+        var base = iwindow.document.createElement('base');
+        base.target = '_parent';
+        iwindow.document.body.appendChild(base);
+
         head.appendChild(runnerLoader);
     }
 
@@ -33,11 +82,13 @@
         var specList = qs.testIndexFile || './functionalTest/index';
         var idx = specList.lastIndexOf('.js');
         if (idx > 0 && idx == specList.length - 3) {
-            specList = specList.substr(0,specList.length - 3);
+            specList = specList.substr(0, specList.length - 3);
         }
-        var specsToRun = [ specList ];
-        var runner = new SufferRunner(specsToRun);      // jshint ignore:line
-        runner.runTests().then(function(){
+        var specsToRun = [specList];
+        var runner = new SufferRunner(specsToRun); // jshint ignore:line
+        runner.startTests();
+        window.testsDone.then(function() {
+            iframe.style.display = 'block';
             if (qs.reportURL) {
                 var xml = runner.getJUnitTestResults();
                 postTestResults(xml, qs.reportURL);
@@ -62,7 +113,8 @@
         if (typeof results === 'string') {
             request.setRequestHeader('Content-Type', 'text/xml; charset=UTF-8');
             request.send(results);
-        } else {
+        }
+        else {
             request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
             request.send(JSON.stringify(results));
         }
@@ -73,12 +125,12 @@
             load();
             return;
         }
-        setTimeout(checkReady,CHECK_READY_INTERVAL);
+        setTimeout(checkReady, CHECK_READY_INTERVAL);
     }
 
     // checks for the URL param to run automated tests
     function loadIfEnabled() {
-        qs = parseQueryString();
+        qs = parseQueryString(window.location);
         if (qs.runTests === undefined) {
             // do nothing
             return;
@@ -103,7 +155,8 @@
         var selfScript = null;
         try {
             selfScript = document.querySelector('script[src*="' + name + '"]');
-        } catch (x) {
+        }
+        catch (x) {
             // ignore
         }
         // If a browser doesn't support *= attribute selectors, check all scripts
@@ -128,12 +181,12 @@
         return scriptElement.src.split(name).join('');
     }
 
-    function getScriptPathRelativeTo(newSrc, nextToSrc) {
-        var path = getScriptPathOf(nextToSrc);
+    function getPathTo(src, def) {
+        var path = def || getScriptPathOf(src);
         if (path === undefined) {
-            throw new Error('Can\'t find script tag for ' + nextToSrc);
+            throw new Error('Can\'t find script tag for ' + src);
         }
-        return path + newSrc;
+        return path;
     }
 
     loadIfEnabled();

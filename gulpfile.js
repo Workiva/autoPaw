@@ -12,6 +12,8 @@ gulp.task('concat', wGulp.concat({
     src: [
         'lib/jasmine-2.0.2/jasmine.js',
         'lib/jasmine-2.0.2/console.js',
+        'lib/jasmineDoneReporter.js',
+        'lib/jasmine-2.0.2/jasmine-html.js',
         'lib/jasmine-jsreporter/jasmine-jsreporter.js',
         'lib/junit_reporter/junit_reporter.js',
         'lib/jasmine-2.0.2/boot.js',
@@ -21,6 +23,6 @@ gulp.task('concat', wGulp.concat({
 }));
 
 gulp.task('copy:dist', wGulp.copy({
-    src: 'src/suffer.js',
+    src: ['src/suffer.js', 'lib/jasmine-2.0.2/jasmine.css'],
     dest: 'dist/'
 }));
