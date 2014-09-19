@@ -55,24 +55,21 @@
         iwindow.document.body.appendChild(css);
         var mainWindow = window;
         ibody.addEventListener('click', function(ev) {
-            debugger;
             var target = ev.target;
-            // if (target.tagName === 'A') {
-                ev.preventDefault();
-                var linkQs = parseQueryString(target.href);
-                var key;
-                for (key in qs) {
-                    if (linkQs[key] === undefined && key !== 'spec') {
-                        linkQs[key] = qs[key];
-                    }
+            ev.preventDefault();
+            var linkQs = parseQueryString(target.href);
+            var key;
+            for (key in qs) {
+                if (linkQs[key] === undefined && key !== 'spec') {
+                    linkQs[key] = qs[key];
                 }
-                var newQuery = '';
-                for (key in linkQs) {
-                    newQuery = newQuery + key + '=' + linkQs[key] + '&';
-                }
-                var newUrl = target.href.split('?')[0] + '?' + newQuery;
-                mainWindow.location = newUrl;
-            // }
+            }
+            var newQuery = '';
+            for (key in linkQs) {
+                newQuery = newQuery + key + '=' + linkQs[key] + '&';
+            }
+            var newUrl = target.href.split('?')[0] + '?' + newQuery;
+            mainWindow.location = newUrl;
         });
         var base = iwindow.document.createElement('base');
         base.target = '_parent';

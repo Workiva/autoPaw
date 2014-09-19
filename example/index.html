@@ -8,13 +8,15 @@
         <link rel="stylesheet" type="text/css" href="style.css" />
         <script src="../jspm_packages/system@0.8.js"></script>
         <script src="config.js"></script>
-        <script src="../dist/suffer.js"></script>
         <script type="text/javascript" src="Cloth.js"></script>
         <script>
             System.import('paw/Paw').then(function(Paw) {
                 window.paw = new Paw();
             });
         </script>
+
+        <!-- Just add this JS file to enable functional tests -->
+        <script async="true" defer="true" src="../dist/suffer.js"></script>
     </head>
     <body>
         <ul>
