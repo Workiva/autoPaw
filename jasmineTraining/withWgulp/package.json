@@ -1,16 +1,13 @@
 {
-  "name": "jasmine2withWgulp",
+  "name": "jasmineTrainingWithWGulp",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "description": "Demo using jasmine 2",
+  "private": true,
+  "readmeFilename": "README.md",
   "devDependencies": {
-    "gulp": "^3.8.8",
-    "jspm": "^0.7.1",
-    "wGulp": "git+ssh://git@github.com:webfilings/wGulp"
+    "wGulp": "git+ssh://git@github.com:WebFilings/wGulp.git#master"
+  },
+  "jspm": {
+    "name": "jasmineTrainingWithWGulp"
   }
 }

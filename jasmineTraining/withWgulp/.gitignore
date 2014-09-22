@@ -4,12 +4,12 @@
 
 bower_components/
 docs/api/
+jspm_packages/
 node_modules/
 out/
+typings/
+api/.gitignore
 
 _*.runner.html
 npm_debug.log
 *.orig
-*.log
-
-.DS_Store
