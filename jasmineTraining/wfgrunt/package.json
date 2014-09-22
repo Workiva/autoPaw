@@ -1,0 +1,18 @@
+{
+  "name": "jasmineWithWfgrunt",
+  "version": "0.0.0",
+  "description": "training with jasmine",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "wf-js-grunt": "git+ssh://git@github.com:WebFilings/wf-js-grunt.git"
+  }
+}
