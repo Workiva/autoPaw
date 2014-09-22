@@ -2,6 +2,13 @@ define(function(require) {
     'use strict';
     var AsyncSpec = require('../src/AsyncSpec')
     var DocumentViewer = require('../src/DocumentViewer');
+    jasmine.clock = function() {
+        return {
+            install: jasmine.Clock.useMock,
+            tick: jasmine.Clock.tick,
+            uninstall: function() {},
+        };
+    };
 
     describe('DocumentViewer', function() {
         var async = new AsyncSpec(this);
@@ -93,7 +100,7 @@ define(function(require) {
                 });
             });
 
-            xdescribe('clock manipulation in 2: http://jasmine.github.io/2.0/introduction.html#section-Mocking_the_JavaScript_Timeout_Functions', function() {
+            describe('clock manipulation in 2: http://jasmine.github.io/2.0/introduction.html#section-Mocking_the_JavaScript_Timeout_Functions', function() {
                 beforeEach(function () {
                     jasmine.clock().install();
                 });

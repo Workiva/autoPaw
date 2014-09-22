@@ -1,4 +1,103 @@
+var _ = _ || {};
+_.extend = _.extend || function(obj) {
+  // if (!_.isObject(obj)) return obj;
+  var source, prop;
+  for (var i = 1, length = arguments.length; i < length; i++) {
+    source = arguments[i];
+    for (prop in source) {
+      if (hasOwnProperty.call(source, prop)) {
+          obj[prop] = source[prop];
+      }
+    }
+  }
+  return obj;
+};
 
+var AsyncSpec = (function() {
+    'use strict';
+    /* global it, runs, waitsFor */
+
+    function runAsync(block) {
+        return function() {
+            var done = false;
+            var complete = function() {
+                done = true;
+            };
+
+            runs(function() {
+                block(complete);
+            });
+
+            waitsFor(function() {
+                return done;
+            });
+        };
+    }
+
+    function AsyncSpec(spec) {
+        this.spec = spec;
+    }
+
+    AsyncSpec.prototype.beforeEach = function(block) {
+        this.spec.beforeEach(runAsync(block));
+    };
+
+    AsyncSpec.prototype.afterEach = function(block) {
+        this.spec.afterEach(runAsync(block));
+    };
+
+    AsyncSpec.prototype.it = function(description, block) {
+        // For some reason, `it` is not attached to the current
+        // test suite, so it has to be called from the global
+        // context.
+        it(description, runAsync(block));
+    };
+
+    return AsyncSpec;
+})();
+
+(function shimJasmine2Spec() {
+  jasmine.clock = function() {
+      return {
+          install: jasmine.Clock.useMock,
+          tick: jasmine.Clock.tick,
+          uninstall: function() {},
+      };
+  };
+  window.pending = function() {
+    throw new Error('pending is not supported - use xit or leave off the function block');
+  };
+  window.spyOn = function() {
+    var old = jasmine.spyOn.call(this, arguments);
+    return _.extend(old, {
+      and: {
+        callThrough: old.andCallThrough,
+      },
+      calls: {
+        count: function() { return old.callCount; },
+        first: function() { return old.calls[0]; },
+      },
+    });
+  };
+
+  //TODO async with 'done'
+  // var old = {
+  //   describe: window.describe,
+  //   beforeEach: window.beforeEach,
+  //   afterEach: window.afterEach,
+  // };
+  // window.describe = function() {
+  //   var async = new AsyncSpec(this);
+  //   old.describe._async = async;
+  //   return old.describe.call(this, arguments);
+  // };
+  // window.beforeEach = function() {
+  //   if (arguments.length === 2) {
+  //     return
+  //   }
+  //   return old.beforeEach.call(this, arguments);
+  // }
+})();
 /**
  Jasmine is a behavior-driven development framework for testing JavaScript code. It does not depend on any other JavaScript frameworks. It does not require a DOM. And it has a clean, obvious syntax so that you can easily write tests.
  This guide is running against Jasmine version <span class="version">FILLED IN AT RUNTIME</span>.
