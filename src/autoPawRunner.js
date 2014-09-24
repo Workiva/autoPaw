@@ -1,12 +1,12 @@
-var SufferRunner = (function () {   // jshint ignore:line
+var autoPawRunner = (function () {   // jshint ignore:line
 
     'use strict';
 
-    function SufferRunner(specsToRun) {
+    function autoPawRunner(specsToRun) {
         this.specList = specsToRun.slice(0);
     }
 
-    SufferRunner.prototype = {
+    autoPawRunner.prototype = {
 
         startTests: function(/*consoleEcho*/) {
 
@@ -45,5 +45,5 @@ var SufferRunner = (function () {   // jshint ignore:line
 
     };
 
-    return SufferRunner;
+    return autoPawRunner;
 })();

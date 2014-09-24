@@ -1,4 +1,4 @@
-suffer
+autoPaw
 ================================================================================
 
 > Another awesome JavaScript project from WebFilings.
@@ -14,7 +14,7 @@ Consuming This Library
 $ npm install -g jspm@0.7.0-beta.19
 
 # install this package
-$ jspm install suffer=github:WebFilings/suffer@{version}
+$ jspm install autoPaw=github:WebFilings/autoPaw@{version}
 ```
 
 
@@ -23,8 +23,8 @@ Development: Getting Started
 
 ```bash
 # clone the repo
-$ git clone git@github.com:WebFilings/suffer.git
-$ cd suffer
+$ git clone git@github.com:WebFilings/autoPaw.git
+$ cd autoPaw
 
 # install global tools if you haven't already
 $ npm install -g gulp

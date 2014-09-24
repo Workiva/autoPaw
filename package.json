@@ -1,11 +1,11 @@
 {
-  "name": "suffer",
+  "name": "autoPaw",
   "version": "0.0.0",
   "description": "Another awesome JavaScript project from WebFilings.",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/WebFilings/suffer.git"
+    "url": "git://github.com/WebFilings/autoPaw.git"
   },
   "readmeFilename": "README.md",
   "devDependencies": {
@@ -13,6 +13,6 @@
     "paw": "git://github.com/workiva/paw"
   },
   "jspm": {
-    "name": "suffer"
+    "name": "autoPaw"
   }
 }

@@ -23,19 +23,19 @@
     }
 
     function load() {
-        // load SufferRunner via script tag injection
-        var runnerPath = getPathTo('suffer.js', qs.runnerPath);
+        // load autoPawRunner via script tag injection
+        var runnerPath = getPathTo('autoPaw.js', qs.runnerPath);
         var runnerLoader = document.createElement('script');
         runnerLoader.type = 'text/javascript';
-        runnerLoader.src = runnerPath + 'sufferRunner.js';
-        runnerLoader.onload = runSuffer;
+        runnerLoader.src = runnerPath + 'autoPawRunner.js';
+        runnerLoader.onload = runautoPaw;
         var head = document.getElementsByTagName('head')[0];
 
 
-        iframe = document.getElementById('suffer_results');
+        iframe = document.getElementById('autoPaw_results');
         if (!iframe) {
             iframe = document.createElement('iframe');
-            iframe.id = 'suffer_results';
+            iframe.id = 'autoPaw_results';
             iframe.style.position = 'absolute';
             iframe.style.top = '0px';
             iframe.style.left = '0px';
@@ -78,14 +78,14 @@
         head.appendChild(runnerLoader);
     }
 
-    function runSuffer() {
+    function runautoPaw() {
         var specList = qs.testIndexFile || './functionalTest/index';
         var idx = specList.lastIndexOf('.js');
         if (idx > 0 && idx == specList.length - 3) {
             specList = specList.substr(0, specList.length - 3);
         }
         var specsToRun = [specList];
-        var runner = new SufferRunner(specsToRun); // jshint ignore:line
+        var runner = new autoPawRunner(specsToRun); // jshint ignore:line
         runner.startTests();
         window.testsDone.then(function() {
             iframe.style.display = 'block';

@@ -23,12 +23,12 @@ gulp.task('concat', wGulp.concat({
         'node_modules/paw/src/Gestures.js',
         'node_modules/paw/src/Train.js',
         'node_modules/paw/src/Paw.js',
-        'src/sufferRunner.js'
+        'src/autoPawRunner.js'
     ],
-    outfile: 'sufferRunner.js'
+    outfile: 'autoPawRunner.js'
 }));
 
 gulp.task('copy:dist', wGulp.copy({
-    src: ['src/suffer.js', 'lib/jasmine-2.0.2/jasmine.css'],
+    src: ['src/autoPaw.js', 'lib/jasmine-2.0.2/jasmine.css'],
     dest: 'dist/'
 }));
