@@ -17,6 +17,12 @@ gulp.task('concat', wGulp.concat({
         'lib/jasmine-jsreporter/jasmine-jsreporter.js',
         'lib/junit_reporter/junit_reporter.js',
         'lib/jasmine-2.0.2/boot.js',
+        'node_modules/paw/bower_components/q/q.js',
+        'node_modules/paw/src/WheelEventSimulator.js',
+        'node_modules/paw/src/ViewportRelative.js',
+        'node_modules/paw/src/Gestures.js',
+        'node_modules/paw/src/Train.js',
+        'node_modules/paw/src/Paw.js',
         'src/sufferRunner.js'
     ],
     outfile: 'sufferRunner.js'

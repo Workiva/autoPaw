@@ -1,6 +1,3 @@
-var Paw = require('paw/Paw');
-var Train = require('paw/Train');
-
 describe("pawSpec", function() {
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
@@ -10,11 +7,6 @@ describe("pawSpec", function() {
     var start;
     var end;
     var duration = 1500;
-
-    // handy function
-    function pixelColorAt(ctx, x, y) {
-        return ctx.getImageData(x, y, 1, 1).data;
-    }
 
     beforeEach(function() {
         paw = new Paw();
@@ -51,7 +43,7 @@ describe("pawSpec", function() {
         var context = canvas.getContext('2d');
         var startY = start.y + 30;
         var endY = startY + 20;
-        var color;
+        var imgd, color, idx;
         var x = end.x - 20;
 
         paw.gesture(start, end, duration)
@@ -59,17 +51,14 @@ describe("pawSpec", function() {
             .gesture(end, start, duration)
             .wait(600)
             .then(function() {
+                // verify that canvas area beneath the cut is uniformly empty
                 x = x - 60;
-
+                imgd = context.getImageData(0, 0, rect.width, rect.height).data;
                 for (var y = startY; y <= endY; y++) {
-                    color = pixelColorAt(context, x, y);
-                    //console.log(color);
-                    if (color[0] != 0) {
-                        //expect(129 <= color[0] && color[0] <= 150).toBe(true);
-                    // expect(color[1]).toBeCloseTo(137, 2);
-                    // expect(color[2]).toBeCloseTo(137, 2);
-                    }
-                };
+                    idx = (y * rect.width + x) * 4;
+                    color = [imgd[idx], imgd[idx+1], imgd[idx+2], imgd[idx+3]];
+                    expect(color).toEqual([0,0,0,0]);
+                }
         }).then(done);
     });
 });
