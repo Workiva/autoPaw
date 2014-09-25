@@ -1,8 +1,9 @@
 autoPaw
 ================================================================================
 
-> Another awesome JavaScript project from WebFilings.
+> Injectable functional test runner using Jasmine and the [Paw](https://github.com/Workiva/paw) library.
 
+![autoPaw](http://33.media.tumblr.com/tumblr_m8sk90pwcJ1qdlh1io1_400.gif)
 
 Consuming This Library
 --------------------------------------------------------------------------------
