@@ -27,9 +27,12 @@
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+/*
+This is a slightly modified version of the JSReporter2 available from:
+https://github.com/detro/jasmine-jsreporter
+*/
 
 getJasmineRequireObj().JSReporter2 = function() {
-
 
   // ------------------------------------------------------------------------
   // Jasmine JSReporter for Jasmine 2.0

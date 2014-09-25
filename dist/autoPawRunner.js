@@ -2589,7 +2589,7 @@ getJasmineRequireObj().interface = function(jasmine, env) {
 };
 
 getJasmineRequireObj().version = function() {
-  return '2.0.2';
+  return '2.0.4';
 };
 
 /*
@@ -2757,40 +2757,6 @@ getJasmineRequireObj().ConsoleReporter = function() {
   }
 
   return ConsoleReporter;
-};
-
-
-function getJasmineRequireObj() {
-  if (typeof module !== 'undefined' && module.exports) {
-    return exports;
-  } else {
-    window.jasmineRequire = window.jasmineRequire || {};
-    return window.jasmineRequire;
-  }
-}
-
-getJasmineRequireObj().done = function(jRequire, j$) {
-  j$.ConsoleReporter = jRequire.ConsoleReporter();
-};
-
-getJasmineRequireObj().DoneReporter = function() {
-
-  function DoneReporter() {
-
-    var resolver = null;
-
-    window.testsDone = new Promise(function(resolve) {
-      resolver = resolve;
-    });
-
-    this.jasmineDone = function() {
-      resolver();
-    };
-
-    return this;
-  }
-
-  return DoneReporter;
 };
 
 /*
@@ -3184,6 +3150,40 @@ jasmineRequire.QueryString = function() {
   return QueryString;
 };
 
+
+function getJasmineRequireObj() {
+  if (typeof module !== 'undefined' && module.exports) {
+    return exports;
+  } else {
+    window.jasmineRequire = window.jasmineRequire || {};
+    return window.jasmineRequire;
+  }
+}
+
+getJasmineRequireObj().done = function(jRequire, j$) {
+  j$.ConsoleReporter = jRequire.ConsoleReporter();
+};
+
+getJasmineRequireObj().DoneReporter = function() {
+
+  function DoneReporter() {
+
+    var resolver = null;
+
+    window.testsDone = new Promise(function(resolve) {
+      resolver = resolve;
+    });
+
+    this.jasmineDone = function() {
+      resolver();
+    };
+
+    return this;
+  }
+
+  return DoneReporter;
+};
+
 /*
   This file is part of the Jasmine JSReporter project from Ivan De Marino.
 
@@ -3213,9 +3213,12 @@ jasmineRequire.QueryString = function() {
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
   THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+/*
+This is a slightly modified version of the JSReporter2 available from:
+https://github.com/detro/jasmine-jsreporter
+*/
 
 getJasmineRequireObj().JSReporter2 = function() {
-
 
   // ------------------------------------------------------------------------
   // Jasmine JSReporter for Jasmine 2.0
@@ -3426,6 +3429,34 @@ getJasmineRequireObj().JSReporter2 = function() {
   };
 
 };
+
+/*
+The MIT License
+
+Copyright (c) 2010 Larry Myers
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+/*
+This is a slightly modified version of the JUnitXmlReporter available from:
+https://github.com/larrymyers/jasmine-reporters
+*/
 
 /* global java, __phantom_writeFile */
 (function(global) {

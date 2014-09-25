@@ -70,7 +70,6 @@
   var htmlReporter = new HtmlReporter({
     env: env,
     onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
-    // getContainer: function() { return document.body; },
     getContainer: function() {
       var el = document.getElementById('autoPaw_results');
       if (!el) {
