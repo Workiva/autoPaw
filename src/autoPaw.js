@@ -89,7 +89,7 @@
             specList = specList.substr(0, specList.length - 3);
         }
         var specsToRun = [specList];
-        var runner = new autoPawRunner(specsToRun); // jshint ignore:line
+        var runner = new autoPawRunner(jasmine, specsToRun); // jshint ignore:line
         runner.startTests();
         window.testsDone.then(function() {
             iframe.style.display = 'block';

@@ -3839,7 +3839,6 @@ https://github.com/larrymyers/jasmine-reporters
   var htmlReporter = new HtmlReporter({
     env: env,
     onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
-    // getContainer: function() { return document.body; },
     getContainer: function() {
       var el = document.getElementById('autoPaw_results');
       if (!el) {
@@ -7356,13 +7355,20 @@ var autoPawRunner = (function () {   // jshint ignore:line
 
     'use strict';
 
-    function autoPawRunner(specsToRun) {
-        this.specList = specsToRun.slice(0);
+    function autoPawRunner(jasmineRef, specsToRun) {
+        if (specsToRun) {
+            this.specList = specsToRun.slice(0);
+        }
+        this.jasmine = jasmineRef;
     }
 
     autoPawRunner.prototype = {
 
-        startTests: function(/*consoleEcho*/) {
+        startTests: function() {
+
+            if (!this.specList) {
+                return;
+            }
 
             // dynamically load a spec file
             function importIt(x) {
@@ -7373,7 +7379,7 @@ var autoPawRunner = (function () {   // jshint ignore:line
 
             Promise.all(self.specList.map(importIt)).then(function(){
                 // run tests when all have been loaded
-                jasmine.getEnv().execute();
+                self.jasmine.getEnv().execute();
             });
 
         },
@@ -7383,16 +7389,16 @@ var autoPawRunner = (function () {   // jshint ignore:line
         },
 
         getTestResults: function() {
-            return jasmine.getJSReport();
+            return this.jasmine.getJSReport();
         },
 
         getTestResultsAsString: function() {
-            return jasmine.getJSReportAsString();
+            return this.jasmine.getJSReportAsString();
         },
 
         getJUnitTestResults: function() {
-            if (jasmine.junitReport) {
-                return jasmine.junitReport;
+            if (this.jasmine.junitReport) {
+                return this.jasmine.junitReport;
             }
             return '';
         }

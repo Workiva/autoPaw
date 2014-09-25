@@ -1,7 +1,7 @@
 (function() {
 
     var CHECK_READY_INTERVAL = 1000;
-    var TIMEOUT_AFTER = 4000; // prod value, mobile can take a while to load
+    var TIMEOUT_AFTER = 30000; // prod value, mobile can take a while to load
     var startTime;
     var endTime;
     var qs; // the query string params
@@ -31,7 +31,7 @@
         runnerLoader.onload = runautoPaw;
         var head = document.getElementsByTagName('head')[0];
 
-
+        // create an iframe for display of the jasmine html reporter
         iframe = document.getElementById('autoPaw_results');
         if (!iframe) {
             iframe = document.createElement('iframe');
@@ -49,10 +49,14 @@
         var iwindow = (iframe.contentWindow) ? iframe.contentWindow : (iframe.contentDocument.document) ? iframe.contentDocument.document : iframe.contentDocument;
         var ibody = iwindow.document.body;
 
+        // load the jasmine html reporter css
         var css = iwindow.document.createElement('link');
         css.rel = 'stylesheet';
         css.href = runnerPath + 'jasmine.css';
         iwindow.document.body.appendChild(css);
+
+        // support clicking of links in jasmine html reporter
+        // to rerun specific tests/suites
         var mainWindow = window;
         ibody.addEventListener('click', function(ev) {
             var target = ev.target;
@@ -85,7 +89,7 @@
             specList = specList.substr(0, specList.length - 3);
         }
         var specsToRun = [specList];
-        var runner = new autoPawRunner(specsToRun); // jshint ignore:line
+        var runner = new autoPawRunner(jasmine, specsToRun); // jshint ignore:line
         runner.startTests();
         window.testsDone.then(function() {
             iframe.style.display = 'block';
