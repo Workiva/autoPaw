@@ -10,7 +10,7 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "wGulp": "git+ssh://git@github.com:WebFilings/wGulp.git#master",
-    "paw": "git://github.com/workiva/paw",
+    "paw": "git://github.com/workiva/paw#1.0.0",
     "jasmine-core": "^2.0.4"
   },
   "jspm": {
