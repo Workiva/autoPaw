@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Another awesome JavaScript project from WebFilings.",
   "private": true,
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/WebFilings/autoPaw.git"

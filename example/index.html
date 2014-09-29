@@ -16,7 +16,9 @@
         <ul>
             <li><a href="?runTests">Run tests via the querystring</a></li>
             <li><a href="?runTests=600&amp;testIndexFile=./functionalTest/paw_index">Run only paw tests</a></li>
+            <li><a href="?runTests=600&amp;reportURL=http://localhost:3000/result">Run tests and POST results</a></li>
         </ul>
+
         <!-- almost nothing in the page - will hit harder apps later... -->
         <button onClick='window._clicked = this.id; console.log("hello")'  id='theButton'>Whatever</button>
         <button onClick='window._clicked = this.id; console.log("hello2")' id='theButton2'>Whatever2</button>
