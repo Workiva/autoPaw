@@ -12,7 +12,7 @@ Consuming This Library
 
 ```bash
 # install jspm if you haven't already
-$ npm install -g jspm@0.7.0-beta.19
+$ npm install -g jspm
 
 # install this package
 $ jspm install autoPaw=github:WebFilings/autoPaw@{version}
@@ -29,7 +29,7 @@ $ cd autoPaw
 
 # install global tools if you haven't already
 $ npm install -g gulp
-$ npm install -g jspm@0.7.0-beta.19
+$ npm install -g jspm
 
 # run init script
 $ ./init.sh
@@ -56,11 +56,9 @@ $ grunt watch:test
 
 - `./src` - TypeScript or JavaScript source code
 - `./test` - TypeScript or JavaScript test specs, written with Jasmine 2
-- `./sass` - Default location for OOCSS styles
 - `./build` - Assets generated via build
     - `./build/src` - Destination for transpiled/copied source code (from `./src`)
     - `./build/test` - Destination for transpiled/copied test spec code (from `./test`)
-    - `./build/css` - Destination for compiled/copied css/sass/scss/less code (from `./sass`)
 - `./dist` - Destination for generated distribution assets
 - `./docs` - Destination for generated documentation
 - `./report` - Destination for generated reports (coverage, complexity, test)
