@@ -1,6 +1,6 @@
-var autoPawRunner = require('../src/autoPawRunner').autoPawRunner;
+var AutoPawRunner = require('../src/autoPawRunner').AutoPawRunner;
 
-describe('autoPawRunner', function() {
+describe('AutoPawRunner', function() {
 
     var envMock = {
         execute: function() {}
@@ -15,7 +15,7 @@ describe('autoPawRunner', function() {
     };
 
     it('should exist', function() {
-        expect(autoPawRunner).toBeDefined();
+        expect(AutoPawRunner).toBeDefined();
     });
 
     it('should save and return the spec list provided', function() {
@@ -24,7 +24,7 @@ describe('autoPawRunner', function() {
             'spec2',
             'spec3'
         ];
-        var runner = new autoPawRunner(jasmineMock, specList);
+        var runner = new AutoPawRunner(jasmineMock, specList);
         expect(runner.getSpecList()).toEqual(specList);
     });
 
@@ -34,7 +34,7 @@ describe('autoPawRunner', function() {
             'spec2',
             'spec3'
         ];
-        var runner = new autoPawRunner(jasmineMock, specList);
+        var runner = new AutoPawRunner(jasmineMock, specList);
 
         spyOn(System, 'import');
         spyOn(envMock, 'execute').and.callFake(function() {
@@ -52,19 +52,19 @@ describe('autoPawRunner', function() {
     describe('test results', function() {
 
         it('should return JSON test report', function() {
-            var runner = new autoPawRunner(jasmineMock);
+            var runner = new AutoPawRunner(jasmineMock);
             var results = runner.getTestResults();
             expect(results).toEqual('JSON Report');
         });
 
         it('should return JSON test report string', function() {
-            var runner = new autoPawRunner(jasmineMock);
+            var runner = new AutoPawRunner(jasmineMock);
             var results = runner.getTestResultsAsString();
             expect(results).toEqual('JSON Report String');
         });
 
         it('should return JUnit test report', function() {
-            var runner = new autoPawRunner(jasmineMock);
+            var runner = new AutoPawRunner(jasmineMock);
             var results = runner.getJUnitTestResults();
             expect(results).toEqual('JUnit Report');
         });

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+/* global AutoPawRunner */
 (function() {
 
     var CHECK_READY_INTERVAL = 1000;
@@ -86,7 +87,9 @@
             }
             var newQuery = '';
             for (key in linkQs) {
-                newQuery = newQuery + key + '=' + linkQs[key] + '&';
+                if (linkQs.hasOwnProperty(key)) {
+                    newQuery = newQuery + key + '=' + linkQs[key] + '&';
+                }
             }
             var newUrl = target.href.split('?')[0] + '?' + newQuery;
             mainWindow.location = newUrl;
@@ -101,11 +104,11 @@
     function runautoPaw() {
         var specList = qs.testIndexFile || './functionalTest/index';
         var idx = specList.lastIndexOf('.js');
-        if (idx > 0 && idx == specList.length - 3) {
+        if (idx > 0 && idx === specList.length - 3) {
             specList = specList.substr(0, specList.length - 3);
         }
         var specsToRun = [specList];
-        var runner = new autoPawRunner(jasmine, specsToRun); // jshint ignore:line
+        var runner = new AutoPawRunner(jasmine, specsToRun);
         runner.startTests();
         window.testsDone.then(function() {
             iframe.style.display = 'block';

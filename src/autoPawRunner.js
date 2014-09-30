@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-var autoPawRunner = (function () {   // jshint ignore:line
+/* global System */
+/* exported AutoPawRunner */
+
+var AutoPawRunner = (function () {
 
     'use strict';
 
-    function autoPawRunner(jasmineRef, specsToRun) {
+    function AutoPawRunner(jasmineRef, specsToRun) {
         if (specsToRun) {
             this.specList = specsToRun.slice(0);
         }
         this.jasmine = jasmineRef;
     }
 
-    autoPawRunner.prototype = {
+    AutoPawRunner.prototype = {
 
         startTests: function() {
 
@@ -35,7 +38,7 @@ var autoPawRunner = (function () {   // jshint ignore:line
 
             // dynamically load a spec file
             function importIt(x) {
-                return System.import(x);    // jshint ignore:line
+                return System.import(x);
             }
 
             var self = this;
@@ -68,5 +71,5 @@ var autoPawRunner = (function () {   // jshint ignore:line
 
     };
 
-    return autoPawRunner;
+    return AutoPawRunner;
 })();
