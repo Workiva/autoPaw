@@ -51,7 +51,7 @@ getJasmineRequireObj().JSReporter2 = function() {
   };
 
   Timer.prototype.elapsed = function () {
-    if (this.startTime == null) {
+    if (this.startTime === null) {
       return -1;
     }
     return new Date().getTime() - this.startTime;
@@ -62,7 +62,9 @@ getJasmineRequireObj().JSReporter2 = function() {
   */
   var _extend = function (obj1, obj2) {
     for (var prop in obj2) {
-      obj1[prop] = obj2[prop];
+      if (obj2.hasOwnProperty(prop)) {
+        obj1[prop] = obj2[prop];
+      }
     }
     return obj1;
   };
@@ -198,12 +200,12 @@ getJasmineRequireObj().JSReporter2 = function() {
   // ---------------
 
   JSR._haveSpec = function (spec) {
-    return this.specs[spec.id] != null;
+    return this.specs[spec.id] !== null;
   };
 
   JSR._cacheSpec = function (spec) {
     var existing = this.specs[spec.id];
-    if (existing == null) {
+    if (!existing) {
       existing = this.specs[spec.id] = _clone(spec);
     } else {
       _extend(existing, spec);
@@ -212,12 +214,12 @@ getJasmineRequireObj().JSReporter2 = function() {
   };
 
   JSR._haveSuite = function (suite) {
-    return this.suites[suite.id] != null;
+    return this.suites[suite.id] !== null;
   };
 
   JSR._cacheSuite = function (suite) {
     var existing = this.suites[suite.id];
-    if (existing == null) {
+    if (!existing) {
       existing = this.suites[suite.id] = _clone(suite);
     } else {
       _extend(existing, suite);

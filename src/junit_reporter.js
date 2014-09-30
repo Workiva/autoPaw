@@ -26,7 +26,8 @@ This is a slightly modified version of the JUnitXmlReporter available from:
 https://github.com/larrymyers/jasmine-reporters
 */
 
-/* global java, __phantom_writeFile */
+/* global exports, __phantom_writeFile */
+
 (function(global) {
     var UNDEFINED,
         exportObject;
@@ -50,7 +51,7 @@ https://github.com/larrymyers/jasmine-reporters
         }
         return dupe;
     }
-    function ISODateString(d) {
+    function isoDateString(d) {
         return d.getFullYear() + '-' +
             pad(d.getMonth()+1) + '-' +
             pad(d.getDate()) + 'T' +
@@ -70,12 +71,6 @@ https://github.com/larrymyers/jasmine-reporters
             path += separator;
         }
         return path + filename;
-    }
-    function log(str) {
-        var con = global.console || console;
-        if (con && con.log) {
-            con.log(str);
-        }
     }
 
 
@@ -186,7 +181,6 @@ https://github.com/larrymyers/jasmine-reporters
             if (output) {
                 wrapOutputAndWriteFile(self.filePrefix, output);
             }
-            //log("Specs skipped but not reported (entire suite skipped)", totalSpecsDefined - totalSpecsExecuted);
 
             self.finished = true;
             // this is so phantomjs-testrunner.js can tell if we're done executing
@@ -212,6 +206,7 @@ https://github.com/larrymyers/jasmine-reporters
             var path = self.savePath;
 
             function phantomWrite(path, filename, text) {
+                /* jshint camelcase: false */
                 // turn filename into a qualified path
                 filename = getQualifiedFilename(path, filename, window.fs_path_separator);
                 // write via a method injected by phantomjs-testrunner.js
@@ -219,6 +214,7 @@ https://github.com/larrymyers/jasmine-reporters
             }
 
             function nodeWrite(path, filename, text) {
+                /* jshint camelcase: false */
                 var fs = require('fs');
                 var nodejs_path = require('path');
                 require('mkdirp').sync(path); // make sure the path exists
@@ -239,13 +235,6 @@ https://github.com/larrymyers/jasmine-reporters
                 return;
             } catch (f) { errors.push('  NodeJS attempt: ' + f.message); }
 
-            /*
-            // If made it here, no write succeeded.  Let user know.
-            log("Warning: writing junit report failed for '" + path + "', '" +
-                filename + "'. Reasons:\n" +
-                errors.join("\n")
-            );
-            */
             // put the final report where browser code can access it
             jasmine.junitReport = text;
         };
@@ -286,7 +275,7 @@ https://github.com/larrymyers/jasmine-reporters
 
         function suiteAsXml(suite) {
             var xml = '\n <testsuite name="' + getFullyQualifiedSuiteName(suite) + '"';
-            xml += ' timestamp="' + ISODateString(suite._startTime) + '"';
+            xml += ' timestamp="' + isoDateString(suite._startTime) + '"';
             xml += ' hostname="localhost"'; // many CI systems like Jenkins don't care about this, but junit spec says it is required
             xml += ' time="' + elapsed(suite._startTime, suite._endTime) + '"';
             xml += ' errors="0"';
