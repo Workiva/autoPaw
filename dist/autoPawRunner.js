@@ -3482,16 +3482,16 @@ https://github.com/larrymyers/jasmine-reporters
     var UNDEFINED,
         exportObject;
 
-    if (typeof module !== "undefined" && module.exports) {
+    if (typeof module !== 'undefined' && module.exports) {
         exportObject = exports;
     } else {
         exportObject = global.jasmineReporters = global.jasmineReporters || {};
     }
 
-    function trim(str) { return str.replace(/^\s+/, "" ).replace(/\s+$/, "" ); }
+    function trim(str) { return str.replace(/^\s+/, '' ).replace(/\s+$/, '' ); }
     function elapsed(start, end) { return (end - start)/1000; }
-    function isFailed(obj) { return obj.status === "failed"; }
-    function isSkipped(obj) { return obj.status === "pending"; }
+    function isFailed(obj) { return obj.status === 'failed'; }
+    function isSkipped(obj) { return obj.status === 'pending'; }
     function pad(n) { return n < 10 ? '0'+n : n; }
     function extend(dupe, obj) { // performs a shallow copy of all props of `obj` onto `dupe`
         for (var prop in obj) {
@@ -3510,11 +3510,11 @@ https://github.com/larrymyers/jasmine-reporters
             pad(d.getSeconds());
     }
     function escapeInvalidXmlChars(str) {
-        return str.replace(/</g, "&lt;")
-            .replace(/\>/g, "&gt;")
-            .replace(/\"/g, "&quot;")
-            .replace(/\'/g, "&apos;")
-            .replace(/\&/g, "&amp;");
+        return str.replace(/</g, '&lt;')
+            .replace(/\>/g, '&gt;')
+            .replace(/\"/g, '&quot;')
+            .replace(/\'/g, '&apos;')
+            .replace(/\&/g, '&amp;');
     }
     function getQualifiedFilename(path, filename, separator) {
         if (path && path.substr(-1) !== separator && filename.substr(0) !== separator) {
@@ -3670,11 +3670,11 @@ https://github.com/larrymyers/jasmine-reporters
             }
 
             function nodeWrite(path, filename, text) {
-                var fs = require("fs");
-                var nodejs_path = require("path");
-                require("mkdirp").sync(path); // make sure the path exists
+                var fs = require('fs');
+                var nodejs_path = require('path');
+                require('mkdirp').sync(path); // make sure the path exists
                 var filepath = nodejs_path.join(path, filename);
-                var xmlfile = fs.openSync(filepath, "w");
+                var xmlfile = fs.openSync(filepath, 'w');
                 fs.writeSync(xmlfile, text, 0);
                 fs.closeSync(xmlfile);
                 return;
@@ -3719,7 +3719,7 @@ https://github.com/larrymyers/jasmine-reporters
 
             // Either remove or escape invalid XML characters
             if (isFilename) {
-                var fileName = "",
+                var fileName = '',
                     rFileChars = /[\w\.]/,
                     chr;
                 while (fullName.length) {
@@ -3764,7 +3764,7 @@ https://github.com/larrymyers/jasmine-reporters
             } else if (isFailed(spec)) {
                 for (var i = 0, failure; i < spec.failedExpectations.length; i++) {
                     failure = spec.failedExpectations[i];
-                    xml += '\n   <failure type="' + (failure.matcherName || "exception") + '"';
+                    xml += '\n   <failure type="' + (failure.matcherName || 'exception') + '"';
                     xml += ' message="' + trim(escapeInvalidXmlChars(failure.message))+ '"';
                     xml += '>';
                     xml += '<![CDATA[' + trim(failure.stack || failure.message) + ']]>';
@@ -3825,9 +3825,21 @@ https://github.com/larrymyers/jasmine-reporters
   var jasmineInterface = jasmineRequire.interface(jasmine, env);
 
   /**
+   * Helper function for readability.
+   */
+  function extend(destination, source) {
+    for (var property in source) {
+        if (source.hasOwnProperty(property)) {
+            destination[property] = source[property];
+        }
+    }
+    return destination;
+  }
+
+  /**
    * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
    */
-  if (typeof window == 'undefined' && typeof exports == 'object') {
+  if (typeof window === 'undefined' && typeof exports === 'object') {
     extend(exports, jasmineInterface);
   } else {
     extend(window, jasmineInterface);
@@ -3911,16 +3923,6 @@ https://github.com/larrymyers/jasmine-reporters
   window.setInterval = window.setInterval;
   window.clearTimeout = window.clearTimeout;
   window.clearInterval = window.clearInterval;
-
-  /**
-   * Helper function for readability above.
-   */
-  function extend(destination, source) {
-    for (var property in source) {
-        destination[property] = source[property];
-    }
-    return destination;
-  }
 
 }());
 

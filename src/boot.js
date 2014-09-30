@@ -37,9 +37,21 @@
   var jasmineInterface = jasmineRequire.interface(jasmine, env);
 
   /**
+   * Helper function for readability.
+   */
+  function extend(destination, source) {
+    for (var property in source) {
+        if (source.hasOwnProperty(property)) {
+            destination[property] = source[property];
+        }
+    }
+    return destination;
+  }
+
+  /**
    * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
    */
-  if (typeof window == 'undefined' && typeof exports == 'object') {
+  if (typeof window === 'undefined' && typeof exports === 'object') {
     extend(exports, jasmineInterface);
   } else {
     extend(window, jasmineInterface);
@@ -123,15 +135,5 @@
   window.setInterval = window.setInterval;
   window.clearTimeout = window.clearTimeout;
   window.clearInterval = window.clearInterval;
-
-  /**
-   * Helper function for readability above.
-   */
-  function extend(destination, source) {
-    for (var property in source) {
-        destination[property] = source[property];
-    }
-    return destination;
-  }
 
 }());
