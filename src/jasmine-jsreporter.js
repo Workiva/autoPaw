@@ -32,6 +32,8 @@ This is a slightly modified version of the JSReporter2 available from:
 https://github.com/detro/jasmine-jsreporter
 */
 
+/* global getJasmineRequireObj */
+
 getJasmineRequireObj().JSReporter2 = function() {
 
   // ------------------------------------------------------------------------

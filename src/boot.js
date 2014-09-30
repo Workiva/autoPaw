@@ -8,6 +8,8 @@
  [jasmine-gem]: http://github.com/pivotal/jasmine-gem
  */
 
+/* global exports, console, jasmineRequire, jasmineReporters */
+
 (function() {
 
   /**
@@ -37,7 +39,7 @@
   /**
    * Add all of the Jasmine global/public interface to the proper global, so a project can use the public interface directly. For example, calling `describe` in specs instead of `jasmine.getEnv().describe`.
    */
-  if (typeof window == "undefined" && typeof exports == "object") {
+  if (typeof window == 'undefined' && typeof exports == 'object') {
     extend(exports, jasmineInterface);
   } else {
     extend(window, jasmineInterface);
@@ -53,8 +55,8 @@
     getWindowLocation: function() { return window.location; }
   });
 
-  var catchingExceptions = queryString.getParam("catch");
-  env.catchExceptions(typeof catchingExceptions === "undefined" ? true : catchingExceptions);
+  var catchingExceptions = queryString.getParam('catch');
+  env.catchExceptions(typeof catchingExceptions === 'undefined' ? true : catchingExceptions);
 
   /**
    * ## Reporters
@@ -69,7 +71,7 @@
   var HtmlReporter = new jasmineRequire.HtmlReporter(jasmine);
   var htmlReporter = new HtmlReporter({
     env: env,
-    onRaiseExceptionsClick: function() { queryString.setParam("catch", !env.catchingExceptions()); },
+    onRaiseExceptionsClick: function() { queryString.setParam('catch', !env.catchingExceptions()); },
     getContainer: function() {
       var el = document.getElementById('autoPaw_results');
       if (!el) {
@@ -107,7 +109,7 @@
    * Filter which specs will be run by matching the start of the full name against the `spec` query param.
    */
   var specFilter = new jasmine.HtmlSpecFilter({
-    filterString: function() { return queryString.getParam("spec"); }
+    filterString: function() { return queryString.getParam('spec'); }
   });
 
   env.specFilter = function(spec) {
@@ -126,7 +128,9 @@
    * Helper function for readability above.
    */
   function extend(destination, source) {
-    for (var property in source) destination[property] = source[property];
+    for (var property in source) {
+        destination[property] = source[property];
+    }
     return destination;
   }
 
