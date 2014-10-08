@@ -1,14 +1,7 @@
 define(function(require) {
     'use strict';
-    var AsyncSpec = require('../src/AsyncSpec')
+    var AsyncSpec = require('../src/AsyncSpec');
     var DocumentViewer = require('../src/DocumentViewer');
-    jasmine.clock = function() {
-        return {
-            install: jasmine.Clock.useMock,
-            tick: jasmine.Clock.tick,
-            uninstall: function() {},
-        };
-    };
 
     describe('DocumentViewer', function() {
         var async = new AsyncSpec(this);
@@ -37,11 +30,11 @@ define(function(require) {
             it('should call the onPageReceived callback when done', function () {
                 var viewer = new DocumentViewer();
                 var pageReceivedCallback = jasmine.createSpy('pageReceivedCallback');
-                viewer.onPageReceived(pageReceivedCallback)
+                viewer.onPageReceived(pageReceivedCallback);
                 spyOn(viewer, 'getPageAsync').andCallFake(function(callback) {
                     // Instead of making a slow request, finish immediately
                     callback();
-                })
+                });
 
                 viewer.load();
 
@@ -123,4 +116,14 @@ define(function(require) {
             });
         });
     });
+
+    (function makeJasmine2SpecsRunInJasmine1() {
+        jasmine.clock = function() {
+            return {
+                install: jasmine.Clock.useMock,
+                tick: jasmine.Clock.tick,
+                uninstall: function() {},
+            };
+        };
+    })();
 });

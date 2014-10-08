@@ -1,5 +1,6 @@
 define(function() {
     'use strict';
+
     function DocumentViewer() {
         this.onPageReceived = function(callback) {
             if (callback) {
@@ -8,6 +9,7 @@ define(function() {
             return this.callback;
         };
     }
+
     DocumentViewer.prototype = {
         getPageAsync: function(doneCallback) {
             // Fake a long-running request
@@ -20,5 +22,13 @@ define(function() {
             });
         },
     };
+
+    // Example usage
+    var viewer = new DocumentViewer();
+    viewer.onPageReceived(function(data) {
+        window.console.log(data);
+    });
+    viewer.load();
+
     return DocumentViewer;
 });
