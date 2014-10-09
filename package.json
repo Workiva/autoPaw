@@ -1,6 +1,6 @@
 {
   "name": "autoPaw",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Injectable functional test runner using Jasmine and the Paw library.",
   "private": true,
   "license": "Apache-2.0",
