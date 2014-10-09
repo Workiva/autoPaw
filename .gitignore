@@ -3,12 +3,15 @@
 *.sublime-*
 
 bower_components/
-docs/api/
+docs/
+report/
 jspm_packages/
 node_modules/
 out/
 typings/
 api/.gitignore
+api/jasmine/
+api/node/
 build/
 _*.runner.html
 npm_debug.log

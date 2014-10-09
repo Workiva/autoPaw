@@ -15,7 +15,7 @@ Consuming This Library
 $ npm install -g jspm
 
 # install this package
-$ jspm install autoPaw=github:WebFilings/autoPaw@{version}
+$ jspm install autoPaw=github:Workiva/autoPaw@{version}
 ```
 
 
@@ -24,7 +24,7 @@ Development: Getting Started
 
 ```bash
 # clone the repo
-$ git clone git@github.com:WebFilings/autoPaw.git
+$ git clone git@github.com:Workiva/autoPaw.git
 $ cd autoPaw
 
 # install global tools if you haven't already
@@ -77,7 +77,7 @@ Familiarize yourself with the package managers we use:
 Development: Process
 --------------------------------------------------------------------------------
 
-This project uses [wGulp](https://github.com/WebFilings/wGulp).
+This project uses [wGulp](https://github.com/Workiva/wGulp).
 Please see that repo for more information.
 
 [Node]: http://nodejs.org/api/
