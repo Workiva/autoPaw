@@ -1,0 +1,8 @@
+language: javascript
+
+install:
+  - jspm dl-loader
+  - jspm install
+
+script:
+  - gulp
