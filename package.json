@@ -1,0 +1,20 @@
+{
+  "name": "autoPaw",
+  "version": "0.0.0",
+  "description": "Injectable functional test runner using Jasmine and the Paw library.",
+  "private": true,
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Workiva/autoPaw.git"
+  },
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "wGulp": "git+ssh://git@github.com:Workiva/wGulp.git#0.6.0",
+    "paw": "git://github.com/Workiva/paw#1.0.0",
+    "jasmine-core": "^2.0.4"
+  },
+  "jspm": {
+    "name": "autoPaw"
+  }
+}
