@@ -803,7 +803,7 @@ getJasmineRequireObj().Any = function() {
     if (this.expectedObject == Object) {
       return typeof other == 'object';
     }
-    
+
     if (this.expectedObject == Boolean) {
       return typeof other == 'boolean';
     }
@@ -3014,7 +3014,7 @@ jasmineRequire.HtmlReporter = function(j$) {
     function clearPrior() {
       // return the reporter
       var oldReporter = find('');
-      
+
       if(oldReporter) {
         getContainer().removeChild(oldReporter);
       }
@@ -3151,7 +3151,7 @@ jasmineRequire.QueryString = function() {
 };
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -5856,7 +5856,7 @@ return Q;
 });
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6011,7 +6011,7 @@ return Q;
 }));
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6247,7 +6247,7 @@ return Q;
 }));
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6620,7 +6620,7 @@ return Q;
 }));
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6863,7 +6863,7 @@ return Q;
 }));
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -7368,7 +7368,7 @@ return Q;
 }));
 
 /*
- * Copyright 2014 Workiva, LLC
+ * Copyright 2014-2015 Workiva Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
